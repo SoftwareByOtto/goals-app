@@ -10,13 +10,13 @@
         <h2>Goals</h2>
         <b-form @submit.prevent="submitGoal">
           <b-input-group>
-            <b-input autofocus v-model="goalInput"></b-input>
+            <b-input required autofocus v-model="goalInput"></b-input>
             <template v-slot:append>
               <b-button type="submit">Submit</b-button>
             </template>
           </b-input-group>
         </b-form>
-        <div v-for="goal in goals" :key="goal" @click="addTaskToGoal(goal)">{{goal}}</div>
+        <b-card class="mt-2" v-for="goal in goals" :key="goal" @click="addTaskToGoal(goal)">{{goal}}</b-card>
       </b-col>
       <b-col md>
         <h2>Tasks</h2>
