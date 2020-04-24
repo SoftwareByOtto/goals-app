@@ -2,9 +2,13 @@
   <b-container>
     <h1>
       Goals App
-      <b-button @click="showGoals = !showGoals">Toggle Goals</b-button>
-      <b-button @click="showArchivedGoals = !showArchivedGoals">Toggle Archived Goals</b-button>
-      <b-button @click="showCompletedTasks = !showCompletedTasks">Toggle Completed Tasks</b-button>
+      <b-button @click="showGoals = !showGoals">{{showGoals ? 'Hide' : 'Show'}} Goals</b-button>
+      <b-button
+        @click="showArchivedGoals = !showArchivedGoals"
+      >{{showArchivedGoals ? 'Hide' : 'Show'}} Archived Goals</b-button>
+      <b-button
+        @click="showCompletedTasks = !showCompletedTasks"
+      >{{showCompletedTasks ? 'Hide' : 'Show'}} Completed Tasks</b-button>
     </h1>
     <b-row>
       <b-col md v-if="showGoals">
