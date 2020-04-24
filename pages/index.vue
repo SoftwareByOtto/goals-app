@@ -21,7 +21,12 @@
         <h2>Tasks</h2>
         <div v-for="task in tasks" :key="task">
           <b-form-group :description="task.goal">
-            <b-input v-model="task.task"></b-input>
+            <b-input-group>
+              <b-input v-model="task.task"></b-input>
+              <template v-slot:append>
+                <b-button variant="success" type="submit">Complete</b-button>
+              </template>
+            </b-input-group>
           </b-form-group>
         </div>
       </b-col>
@@ -48,7 +53,8 @@ export default {
     addTaskToGoal(goal) {
       this.tasks.push({
         task: "",
-        goal
+        goal,
+        complete: false
       });
     }
   },
