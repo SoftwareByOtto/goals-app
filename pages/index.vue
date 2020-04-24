@@ -19,15 +19,17 @@
       </b-col>
       <b-col sm="6">
         <h2>Tasks</h2>
-        <div v-for="task in tasks" :key="task">
-          <b-form-group :description="task.goal">
-            <b-input-group>
-              <b-input v-model="task.task"></b-input>
-              <template v-slot:append>
-                <b-button variant="success" type="submit">Complete</b-button>
-              </template>
-            </b-input-group>
-          </b-form-group>
+        <div v-for="task in incompleteTasks" :key="task">
+          <b-form @submit.prevent="completeTask(task)">
+            <b-form-group :description="task.goal">
+              <b-input-group>
+                <b-input v-model="task.task"></b-input>
+                <template v-slot:append>
+                  <b-button type="submit">Complete</b-button>
+                </template>
+              </b-input-group>
+            </b-form-group>
+          </b-form>
         </div>
       </b-col>
     </b-row>
@@ -56,9 +58,19 @@ export default {
         goal,
         complete: false
       });
+    },
+    completeTask(task) {
+      task.complete = true;
     }
   },
-  computed: {}
+  computed: {
+    incompleteTasks() {
+      return this.tasks.filter(task => task.complete === false);
+    },
+    completeTasks() {
+      return this.tasks.filter(task => task.complete === true);
+    }
+  }
 };
 </script>
 
