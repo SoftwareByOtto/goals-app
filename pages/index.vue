@@ -3,6 +3,7 @@
     <h1>
       Goals App
       <b-button @click="showGoals = !showGoals">Toggle Goals</b-button>
+      <b-button @click="showArchivedGoals = !showArchivedGoals">Toggle Archived Goals</b-button>
       <b-button @click="showCompletedTasks = !showCompletedTasks">Toggle Completed Tasks</b-button>
     </h1>
     <b-row>
@@ -18,12 +19,15 @@
         </b-form>
         <b-card
           class="mt-2"
-          v-for="goal in unarchivedGoals"
+          v-for="goal in filteredGoals"
           :key="goal"
           @click="addTaskToGoal(goal)"
-          @click.right.prevent="archiveGoal(goal)"
+          @click.right.prevent="toggleArchiveGoal(goal)"
         >
-          <b-card-title>{{goal.goal}}</b-card-title>
+          <b-card-title>
+            {{goal.goal}}
+            <b-badge v-if="goal.archived">Archived</b-badge>
+          </b-card-title>
         </b-card>
       </b-col>
       <b-col md>
@@ -62,6 +66,7 @@ export default {
       goalInput: "",
       showGoals: true,
       showCompletedTasks: false,
+      showArchivedGoals: false,
       tasks: []
     };
   },
@@ -83,8 +88,8 @@ export default {
     completeTask(task) {
       task.complete = true;
     },
-    archiveGoal(goal) {
-      goal.archived = true;
+    toggleArchiveGoal(goal) {
+      goal.archived = !goal.archived;
     }
   },
   computed: {
@@ -94,11 +99,12 @@ export default {
     completeTasks() {
       return this.tasks.filter(task => task.complete === true);
     },
-    unarchivedGoals() {
-      return this.goals.filter(goal => goal.archived === false);
-    },
-    archivedGoals() {
-      return this.goals.filter(goal => goal.archived === true);
+    filteredGoals() {
+      if (this.showArchivedGoals) {
+        return this.goals;
+      } else {
+        return this.goals.filter(goal => goal.archived === false);
+      }
     }
   }
 };
