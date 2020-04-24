@@ -16,7 +16,15 @@
             </template>
           </b-input-group>
         </b-form>
-        <b-card class="mt-2" v-for="goal in goals" :key="goal" @click="addTaskToGoal(goal)">{{goal}}</b-card>
+        <b-card
+          class="mt-2"
+          v-for="goal in unarchivedGoals"
+          :key="goal"
+          @click="addTaskToGoal(goal)"
+          @click.right.prevent="archiveGoal(goal)"
+        >
+          <b-card-title>{{goal.goal}}</b-card-title>
+        </b-card>
       </b-col>
       <b-col md>
         <h2>Tasks</h2>
@@ -59,18 +67,24 @@ export default {
   },
   methods: {
     submitGoal() {
-      this.goals.push(this.goalInput);
+      this.goals.push({
+        goal: this.goalInput,
+        archived: false
+      });
       this.goalInput = "";
     },
     addTaskToGoal(goal) {
       this.tasks.push({
         task: "",
-        goal,
+        goal: goal.goal,
         complete: false
       });
     },
     completeTask(task) {
       task.complete = true;
+    },
+    archiveGoal(goal) {
+      goal.archived = true;
     }
   },
   computed: {
@@ -79,6 +93,12 @@ export default {
     },
     completeTasks() {
       return this.tasks.filter(task => task.complete === true);
+    },
+    unarchivedGoals() {
+      return this.goals.filter(goal => goal.archived === false);
+    },
+    archivedGoals() {
+      return this.goals.filter(goal => goal.archived === true);
     }
   }
 };
