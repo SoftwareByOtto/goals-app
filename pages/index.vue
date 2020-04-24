@@ -3,9 +3,10 @@
     <h1>
       Goals App
       <b-button @click="showGoals = !showGoals">Toggle Goals</b-button>
+      <b-button @click="showCompletedTasks = !showCompletedTasks">Toggle Completed Tasks</b-button>
     </h1>
     <b-row>
-      <b-col sm="6" v-if="showGoals">
+      <b-col md v-if="showGoals">
         <h2>Goals</h2>
         <b-form @submit.prevent="submitGoal">
           <b-input-group>
@@ -17,7 +18,7 @@
         </b-form>
         <div v-for="goal in goals" :key="goal" @click="addTaskToGoal(goal)">{{goal}}</div>
       </b-col>
-      <b-col sm="6">
+      <b-col md>
         <h2>Tasks</h2>
         <div v-for="task in incompleteTasks" :key="task">
           <b-form @submit.prevent="completeTask(task)">
@@ -32,6 +33,14 @@
           </b-form>
         </div>
       </b-col>
+      <b-col md v-if="showCompletedTasks">
+        <h2>Completed Tasks</h2>
+        <div v-for="task in completeTasks" :key="task">
+          <b-form-group :description="task.goal">
+            <b-input disabled v-model="task.task"></b-input>
+          </b-form-group>
+        </div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -44,6 +53,7 @@ export default {
       goals: [],
       goalInput: "",
       showGoals: true,
+      showCompletedTasks: false,
       tasks: []
     };
   },
