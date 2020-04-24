@@ -15,10 +15,15 @@
             </template>
           </b-input-group>
         </b-form>
-        <div v-for="goal in goals" :key="goal">{{goal}}</div>
+        <div v-for="goal in goals" :key="goal" @click="addTaskToGoal(goal)">{{goal}}</div>
       </b-col>
       <b-col sm="6">
         <h2>Tasks</h2>
+        <div v-for="task in tasks" :key="task">
+          <b-form-group :description="task.goal">
+            <b-input v-model="task.task"></b-input>
+          </b-form-group>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -31,13 +36,20 @@ export default {
     return {
       goals: [],
       goalInput: "",
-      showGoals: true
+      showGoals: true,
+      tasks: []
     };
   },
   methods: {
     submitGoal() {
       this.goals.push(this.goalInput);
       this.goalInput = "";
+    },
+    addTaskToGoal(goal) {
+      this.tasks.push({
+        task: "",
+        goal
+      });
     }
   },
   computed: {}
