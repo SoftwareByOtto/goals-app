@@ -61,5 +61,8 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  router: {
+    base: '/goals-app/'
   }
 }
